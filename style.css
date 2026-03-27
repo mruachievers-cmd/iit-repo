@@ -1,0 +1,178 @@
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Press+Start+2P&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background: #020205;
+    display: flex; justify-content: center; align-items: center;
+    min-height: 100vh;
+    font-family: 'Share Tech Mono', monospace;
+    overflow: hidden; position: relative; color: #e0e0e0;
+}
+body::before {
+    content: ''; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(circle at center, #0a1020 0%, #020205 80%);
+    z-index: 0;
+}
+
+/* ===== LANDING SCREEN ===== */
+#landing-screen {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 100; display: flex; justify-content: center; align-items: center;
+    background: linear-gradient(135deg, #020210 0%, #0a0a30 40%, #1a0020 100%);
+    overflow: hidden;
+}
+.landing-content {
+    text-align: center; z-index: 2; position: relative;
+}
+.landing-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 42px; color: #FFFFFF; line-height: 1.4;
+    text-shadow: 0 0 20px rgba(64,160,255,0.6), 0 0 60px rgba(64,160,255,0.3);
+    animation: titlePulse 3s ease-in-out infinite;
+}
+.title-highlight {
+    color: #40a0ff;
+    text-shadow: 0 0 30px rgba(64,160,255,0.8), 0 0 80px rgba(64,160,255,0.4);
+}
+.landing-subtitle {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 16px; color: #8090a0; margin-top: 12px;
+    letter-spacing: 6px; text-transform: uppercase;
+}
+.landing-divider {
+    width: 200px; height: 2px; margin: 30px auto;
+    background: linear-gradient(90deg, transparent, #40a0ff, transparent);
+}
+.landing-btn {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 18px; padding: 16px 48px;
+    background: linear-gradient(135deg, #1040a0, #2060d0);
+    color: #FFFFFF; border: 2px solid #40a0ff;
+    cursor: pointer; text-transform: uppercase;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 20px rgba(64,160,255,0.3);
+    animation: btnGlow 2s ease-in-out infinite;
+}
+.landing-btn:hover {
+    background: linear-gradient(135deg, #2060d0, #3080ff);
+    box-shadow: 0 0 40px rgba(64,160,255,0.6);
+    transform: scale(1.05);
+}
+.landing-hint {
+    font-size: 12px; color: #506070; margin-top: 24px;
+    letter-spacing: 4px;
+}
+.landing-particles {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 1;
+}
+@keyframes titlePulse {
+    0%, 100% { opacity: 1; } 50% { opacity: 0.85; }
+}
+@keyframes btnGlow {
+    0%, 100% { box-shadow: 0 0 20px rgba(64,160,255,0.3); }
+    50% { box-shadow: 0 0 40px rgba(64,160,255,0.5); }
+}
+
+/* ===== GAME WRAPPER ===== */
+#game-wrapper {
+    position: relative; z-index: 1;
+    border: 2px solid #40a0ff; border-radius: 4px;
+    box-shadow: 0 0 40px rgba(64,160,255,0.1);
+    overflow: hidden;
+}
+canvas {
+    display: block; image-rendering: crisp-edges;
+    cursor: crosshair;
+}
+
+/* ===== PAUSE BUTTON (top-right) ===== */
+.game-control-btn {
+    position: absolute; top: 8px; right: 8px;
+    width: 36px; height: 36px;
+    background: rgba(10,15,25,0.8);
+    color: #40a0ff; border: 1px solid #40a0ff;
+    font-size: 18px; cursor: pointer; z-index: 15;
+    display: flex; justify-content: center; align-items: center;
+    transition: all 0.2s;
+    border-radius: 4px;
+}
+.game-control-btn:hover {
+    background: rgba(32,80,160,0.8);
+    box-shadow: 0 0 12px rgba(64,160,255,0.5);
+}
+
+/* ===== PAUSE OVERLAY ===== */
+#pause-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 50; display: flex; justify-content: center; align-items: center;
+    background: rgba(0,0,10,0.85);
+    backdrop-filter: blur(4px);
+}
+.pause-content { text-align: center; }
+.pause-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 32px; color: #40a0ff; margin-bottom: 30px;
+    text-shadow: 0 0 20px rgba(64,160,255,0.5);
+}
+.pause-menu-btn {
+    display: block; width: 260px; margin: 12px auto;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 14px; padding: 14px 20px;
+    background: rgba(10,20,40,0.9); color: #40a0ff;
+    border: 2px solid #40a0ff; cursor: pointer;
+    transition: all 0.2s;
+}
+.pause-menu-btn:hover {
+    background: rgba(32,80,160,0.6);
+    box-shadow: 0 0 20px rgba(64,160,255,0.4);
+    transform: scale(1.02);
+}
+.pause-stop-btn {
+    color: #FF4060; border-color: #FF4060;
+}
+.pause-stop-btn:hover {
+    background: rgba(160,32,32,0.4);
+    box-shadow: 0 0 20px rgba(255,64,96,0.4);
+}
+
+/* ===== NAME INPUT ===== */
+#name-input {
+    position: absolute; bottom: 85px; left: 50%; transform: translateX(-50%);
+    width: 300px; padding: 10px 15px;
+    font-family: 'Share Tech Mono', monospace; font-size: 16px;
+    background: rgba(10,15,25,0.95); color: #40a0ff;
+    border: 1px solid #40a0ff; border-radius: 2px;
+    outline: none; text-align: center; z-index: 10;
+    display: none; text-transform: uppercase;
+}
+#name-input:focus {
+    box-shadow: 0 0 15px rgba(64,160,255,0.4);
+    background: rgba(15,25,40,0.95);
+}
+
+/* ===== NOTIFICATIONS ===== */
+.memory-notification {
+    position: absolute; top: 20px; right: 20px;
+    background: rgba(10,15,25,0.9);
+    border-left: 3px solid #40a0ff;
+    padding: 10px 15px; color: #ffffff;
+    font-family: 'Share Tech Mono', monospace; font-size: 14px;
+    z-index: 20;
+    animation: notifySlide 0.4s ease-out, notifyFade 0.5s ease-in 3s forwards;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+.memory-notification .memory-icon { color: #40a0ff; margin-right: 8px; }
+@keyframes notifySlide { from { transform: translateX(120%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+@keyframes notifyFade { to { opacity: 0; transform: translateY(-20px); } }
+
+.controls-hint {
+    position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%);
+    color: #6080a0; font-family: 'Share Tech Mono', monospace;
+    font-size: 12px; text-align: center; z-index: 1; line-height: 1.8;
+}
+.controls-hint span {
+    color: #a0c0e0; background: rgba(20,30,45,0.8);
+    padding: 3px 8px; border-radius: 2px; border: 1px solid #4080c0;
+}
