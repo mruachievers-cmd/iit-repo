@@ -136,6 +136,7 @@ class Game {
     handleKeyDown(code) {
         // Tutorial advance
         if (this.tutorial.active && (code === 'KeyE' || code === 'Enter')) {
+            if (this.tryInteract()) return;
             this.tutorial.advance();
             return;
         }
@@ -164,7 +165,7 @@ class Game {
                 if (npc.gridX === target.x && npc.gridY === target.y) {
                     this.state = STATE.DIALOGUE;
                     this.dialogue.start(npc, this.player);
-                    return;
+                    return true;
                 }
             }
         }
@@ -175,31 +176,38 @@ class Game {
                 this.tilemap.switchMap('company');
                 this.player.gridX = 24; this.player.gridY = 32;
                 this.player.pixelX = 24 * TILE_SIZE; this.player.pixelY = 32 * TILE_SIZE;
+                return true;
             } else if (this.tilemap.currentMap === 'company' && facing.y > 30) {
                 this.state = STATE.DIALOGUE;
                 this.dialogue.start(new NPC({ id: 'sign', name: 'Sign', type: 'sign' }), this.player);
                 this.dialogue.addLine("Can't go back home yet. Gotta find a job...");
+                return true;
             } else if (this.tilemap.currentMap === 'company' && facing.y === 20 && facing.x === 24) {
                 if (this.memorySystem.flags.roundsPassed === 0) {
                     this.state = STATE.DIALOGUE;
                     this.dialogue.start(new NPC({ id: 'sign', name: 'Sign', type: 'sign' }), this.player);
                     this.dialogue.addLine("ACCESS DENIED. Round 1 Not Cleared.");
+                    return true;
                 } else if (this.memorySystem.flags.roundsPassed === 1 && !this.memorySystem.flags.hasKeycard) {
                     this.state = STATE.DIALOGUE;
                     this.dialogue.start(new NPC({ id: 'sign', name: 'Sign', type: 'sign' }), this.player);
                     this.dialogue.addLine("LOCKED. Please swipe Server Room Keycard to enter.");
+                    return true;
                 } else if (this.memorySystem.flags.roundsPassed === 1 && this.memorySystem.flags.hasKeycard) {
                     this.state = STATE.DIALOGUE;
                     this.dialogue.start(new NPC({ id: 'sign', name: 'Sign', type: 'sign' }), this.player);
                     this.dialogue.addLine("The keycard works! But the main terminal is offline...");
                     this.dialogue.addLine("Look around the corridor. Maybe there's a hidden access point near the plants.");
+                    return true;
                 } else {
                     this.state = STATE.DIALOGUE;
                     this.dialogue.start(new NPC({ id: 'sign', name: 'Sign', type: 'sign' }), this.player);
                     this.dialogue.addLine("The puzzle terminal is already decrypted.");
+                    return true;
                 }
             }
         }
+        return false;
     }
 
     startBattleAction(bossId) {
